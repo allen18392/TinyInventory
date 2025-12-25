@@ -3,14 +3,25 @@
 <head>
   <title>Tiny Inventory</title>
   <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h1>📦 Tiny Inventory</h1>
-  <input id="name" placeholder="Item name">
-  <input id="quantity" type="number" placeholder="Quantity">
-  <button onclick="addItem()">Add</button>
-
-  <ul id="list"></ul>
+  <div class="container">
+    <h1>📦 Tiny Inventory</h1>
+    
+    <div class="form-container">
+      <div class="form-group">
+        <input id="name" placeholder="Item name">
+        <input id="quantity" type="number" placeholder="Quantity" min="0">
+        <button onclick="addItem()">Add Item</button>
+      </div>
+    </div>
+    
+    <div class="inventory-list">
+      <h2>Inventory Items</h2>
+      <ul id="list"></ul>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

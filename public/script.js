@@ -49,15 +49,17 @@ function renderList() {
   filteredItems.forEach(item => {
     const li = document.createElement("li");
     li.innerHTML = `
-      <span class="${item.quantity < 30 ? 'low-stock' : ''}">
-        ${item.name} - <strong>${item.quantity}</strong>
-        ${item.quantity < 5 ? "⚠ LOW STOCK" : ""}
-      </span>
+      <div class="item-info">
+        <span class="${item.quantity < 30 ? 'low-stock' : ''}">
+          ${item.name} - <strong>${item.quantity}</strong>
+          ${item.quantity < 30 ? "⚠ LOW STOCK" : ""}
+        </span>
+      </div>
       <div class="item-actions">
-        <button onclick="changeQty('${item._id}', 1)">➕</button>
-        <button onclick="changeQty('${item._id}', -1)">➖</button>
-        <button onclick="updateItem('${item._id}')">✏️</button>
-        <button onclick="deleteItem('${item._id}')">❌</button>
+        <button class="action-btn btn-increase" onclick="changeQty('${item._id}', 1)">➕</button>
+        <button class="action-btn btn-decrease" onclick="changeQty('${item._id}', -1)">➖</button>
+        <button class="action-btn btn-edit" onclick="updateItem('${item._id}')">✏️</button>
+        <button class="action-btn btn-delete" onclick="deleteItem('${item._id}')">❌</button>
       </div>
     `;
     list.appendChild(li);
@@ -105,7 +107,7 @@ async function changeQty(id, amount) {
     const newQty = item.quantity + amount;
     if (newQty < 0) return alert("Quantity cannot be negative");
 
-    const updateRes = await fetch(/api/items/${id}, {
+    const updateRes = await fetch(`/api/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ quantity: newQty })
@@ -128,7 +130,7 @@ async function updateItem(id) {
     const item = items.find(i => i._id === id);
     if (!item) return alert("Item not found");
 
-    let newQty = prompt(Update quantity for "${item.name}":, item.quantity);
+    let newQty = prompt(`Update quantity for "${item.name}":`, item.quantity);
     if (newQty === null) return;
     newQty = parseInt(newQty);
 
@@ -136,7 +138,7 @@ async function updateItem(id) {
       return alert("Quantity must be a non-negative number");
     }
 
-    const updateRes = await fetch(/api/items/${id}, {
+    const updateRes = await fetch(`/api/items/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ quantity: newQty })
@@ -156,7 +158,7 @@ async function deleteItem(id) {
   }
   
   try {
-    const res = await fetch(/api/items/${id}, { method: "DELETE" });
+    const res = await fetch(`/api/items/${id}`, { method: "DELETE" });
     if (!res.ok) throw new Error("Failed to delete item");
     loadItems();
   } catch (err) {

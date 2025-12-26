@@ -12,4 +12,4 @@
 3. Install dependencies:
    npm install
 4. Start the server:
-    node index.js
+    node .\server.js

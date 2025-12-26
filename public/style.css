@@ -14,6 +14,16 @@ body {
   align-items: center;
 }
 
+body {
+  font-family: Arial;
+  padding: 20px;
+}
+
+li {
+  margin: 8px 0;
+}
+
+
 .container {
   background: white;
   border-radius: 16px;
